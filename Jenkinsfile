@@ -1,13 +1,27 @@
-@Library('shared-lib') _
+@Library('shared-lib') _  
 
 pipeline {
-    agent any
+  agent any
 
-    stages {
-        stage('Build Process') {
-            steps {
-                commonBuild()  // Calls the shared library function
-            }
-        }
+  stages {
+    stage('Clone Repository') {
+      steps {
+        git url: 'https://github.com/KyathamRohith/jenkins-shared-library.git', branch: 'main'
+      }
     }
+
+    stage('Build') {
+      steps {
+        sh 'echo "Building the application"'
+      }
+    }
+
+    stage('Running Shared Library') {
+      steps {
+        script {
+          commonBuild() 
+        }
+      }
+    }
+  }
 }
